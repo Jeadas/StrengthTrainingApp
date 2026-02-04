@@ -1,7 +1,7 @@
 {
   "name": "JDFit",
   "short_name": "JDFit",
-  "description": "Local-first, offline-capable workout tracker",
+  "description": "STABLE VERSION - JDFit",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
