@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Strength Training Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196F3">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>💪 Strength Training</h1>
+            <div class="header-controls">
+                <button id="darkModeToggle" class="icon-btn" title="Toggle Dark Mode">🌙</button>
+                <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="mainContent">
+            <!-- Home Screen -->
+            <div id="homeScreen" class="screen active">
+                <div class="container">
+                    <h2>Select a Workout Plan</h2>
+                    <div id="plansList" class="plans-list"></div>
+                    
+                    <div class="action-buttons">
+                        <button id="managePlansBtn" class="btn btn-secondary">Manage Plans</button>
+                        <button id="manageExercisesBtn" class="btn btn-secondary">Manage Exercises</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-Workout Screen -->
+            <div id="preWorkoutScreen" class="screen">
+                <div class="container">
+                    <button id="backToHome" class="btn btn-link">← Back</button>
+                    <h2 id="preWorkoutPlanName"></h2>
+                    <div id="preWorkoutExercises" class="pre-workout-list"></div>
+                    <div class="pre-workout-note">Note: You can adjust rest times between sets and after the final set.</div>
+                    <button id="startWorkoutBtn" class="btn btn-primary btn-large">Start Workout</button>
+                </div>
+            </div>
+
+            <!-- Workout Runner Screen -->
+            <div id="workoutScreen" class="screen">
+                <div class="workout-container">
+                    <div class="workout-progress-bar">
+                        <div id="workoutProgressBarFill" class="progress-bar-fill"></div>
+                    </div>
+                    <div class="workout-header">
+                        <button id="pauseWorkoutBtn" class="btn btn-secondary">Pause</button>
+                        <div class="workout-progress">
+                            <span id="currentExerciseNum">1</span> / <span id="totalExercises">6</span>
+                        </div>
+                        <button id="skipExerciseBtn" class="btn btn-secondary">Skip</button>
+                    </div>
+
+                    <div class="workout-main">
+                        <h2 id="currentExerciseName">Exercise Name</h2>
+                        <p id="currentExerciseInstructions" class="exercise-instructions"></p>
+                        
+                        <div class="set-info">
+                            <div class="set-number">Set <span id="currentSet">1</span> of <span id="totalSets">3</span></div>
+                            <div class="set-target" id="setTarget">12 reps</div>
+<!-- Weight field removed -->
+                        </div>
+
+                        <div class="timer-display" id="timerDisplay">
+                            <div class="timer-label" id="timerLabel">Rest</div>
+                            <div class="timer-value" id="timerValue">00:00</div>
+                            <div id="restAdjustControls" class="rest-adjust-controls" style="display:none">
+                                <button id="restMinus10" class="btn btn-sm btn-secondary">-10s</button>
+                                <button id="restPlus10" class="btn btn-sm btn-secondary">+10s</button>
+                            </div>
+                        </div>
+
+                        <div id="nextExercisePreview" class="next-exercise-preview" style="display:none">
+                            <span class="next-label">Next:</span>
+                            <span id="nextExerciseName"></span>
+                        </div>
+
+                        <div class="workout-controls">
+                            <button id="prevSetBtn" class="btn btn-secondary">← Previous</button>
+                            <button id="completeSetBtn" class="btn btn-primary btn-large">Complete Set</button>
+                            <button id="nextSetBtn" class="btn btn-secondary">Next →</button>
+                        </div>
+                    </div>
+
+                    <button id="finishWorkoutBtn" class="btn btn-danger">Finish Workout</button>
+                </div>
+            </div>
+
+            <!-- Session Summary Screen -->
+            <div id="summaryScreen" class="screen">
+                <div class="container">
+                    <h2>🎉 Workout Complete!</h2>
+                    <div id="summaryStats" class="summary-stats"></div>
+                    <div id="coolDownSection" class="cool-down-section">
+                        <h3>Cool-Down Stretches</h3>
+                        <ul id="coolDownList"></ul>
+                    </div>
+                    <button id="finishSessionBtn" class="btn btn-primary btn-large">Done</button>
+                </div>
+            </div>
+
+            <!-- Manage Plans Screen -->
+            <div id="managePlansScreen" class="screen">
+                <div class="container">
+                    <button id="backToHomeFromPlans" class="btn btn-link">← Back</button>
+	                    <div class="screen-header">
+	                        <h2>Manage Plans</h2>
+	                    </div>
+                    <button id="addPlanBtn" class="btn btn-primary">+ Add New Plan</button>
+                    <div id="plansManageList" class="manage-list"></div>
+                </div>
+            </div>
+
+            <!-- Edit Plan Screen -->
+            <div id="editPlanScreen" class="screen">
+                <div class="container">
+                    <button id="backToManagePlans" class="btn btn-link">← Back</button>
+                    <h2 id="editPlanTitle">Edit Plan</h2>
+                    <form id="editPlanForm">
+                        <div class="form-group">
+                            <label for="planName">Plan Name</label>
+                            <input type="text" id="planName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Exercises (Drag to reorder)</label>
+                            <div id="planExercisesList" class="plan-exercises-list"></div>
+                            <button type="button" id="addExerciseToPlan" class="btn btn-secondary">+ Add Exercise</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Cool-down Stretches</label>
+                            <div id="planStretchesList" class="plan-exercises-list"></div>
+                            <button type="button" id="addStretchToPlan" class="btn btn-secondary">+ Add Stretch</button>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Plan</button>
+                            <button type="button" id="deletePlanBtn" class="btn btn-danger">Delete Plan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Manage Exercises Screen -->
+            <div id="manageExercisesScreen" class="screen">
+                <div class="container">
+                    <button id="backToHomeFromExercises" class="btn btn-link">← Back</button>
+	                    <div class="screen-header">
+	                        <h2>Manage Exercises</h2>
+	                    </div>
+                    <button id="addExerciseBtn" class="btn btn-primary">+ Add New Exercise</button>
+                    <div id="exercisesManageList" class="manage-list"></div>
+                </div>
+            </div>
+
+            <!-- Edit Exercise Screen -->
+            <div id="editExerciseScreen" class="screen">
+                <div class="container">
+                    <button id="backToManageExercises" class="btn btn-link">← Back</button>
+                    <h2 id="editExerciseTitle">Edit Exercise</h2>
+                    <form id="editExerciseForm">
+                        <div class="form-group">
+                            <label for="exerciseName">Exercise Name</label>
+                            <input type="text" id="exerciseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseCategory">Category</label>
+                            <select id="exerciseCategory" required>
+                                <option value="push">Push</option>
+                                <option value="pull">Pull</option>
+                                <option value="legs">Legs</option>
+                                <option value="core">Core</option>
+                                <option value="stretch">Stretch</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseInstructions">Instructions/Notes</label>
+                            <textarea id="exerciseInstructions" rows="4"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="exerciseDefaultSets">Default Sets</label>
+                                <input type="number" id="exerciseDefaultSets" min="1" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="exerciseDefaultReps">Default Reps</label>
+                                <input type="number" id="exerciseDefaultReps" min="0" value="12">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="exerciseWorkSeconds">Work Timer (sec)</label>
+                                <input type="number" id="exerciseWorkSeconds" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="exerciseRest">Rest Between Sets (sec)</label>
+                                <input type="number" id="exerciseRest" min="0" value="60">
+                            </div>
+                            <div class="form-group">
+                                <label for="exerciseRestAfter">Rest After Last Set (sec)</label>
+                                <input type="number" id="exerciseRestAfter" min="0" value="90">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseEquipment">Equipment Tags (comma-separated)</label>
+                            <input type="text" id="exerciseEquipment" placeholder="e.g., dumbbells, pull-up bar">
+                            <div id="equipmentTagsList" class="tags-list"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Exercise</button>
+                            <button type="button" id="deleteExerciseBtn" class="btn btn-danger">Delete Exercise</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Settings Screen -->
+            <div id="settingsScreen" class="screen">
+                <div class="container">
+                    <button id="backToHomeFromSettings" class="btn btn-link">← Back</button>
+                    <h2>Settings</h2>
+                    
+                    <div class="settings-section">
+                        <h3>Audio</h3>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="audioEnabledToggle" checked>
+                            Enable timer beeps
+                        </label>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Data Management</h3>
+                        <button class="btn btn-secondary exportDataBtn">Export Data (JSON)</button>
+                        <button class="btn btn-secondary importDataBtn">Import Data (JSON)</button>
+                        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Advanced</h3>
+                        <button id="resetDataBtn" class="btn btn-danger">Reset All Data</button>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>About</h3>
+                        <p>Strength Training Assistant v1.1</p>
+                        <p>Local-first, offline-capable workout tracker</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal for Exercise Selection -->
+        <div id="exerciseSelectModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Select Exercise</h3>
+                    <button class="modal-close" id="closeExerciseModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="exerciseSearchInput" placeholder="Search exercises or equipment..." class="search-input">
+                    <div id="exerciseSelectList" class="exercise-select-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+    </script>
+</body>
+</html>

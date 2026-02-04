@@ -1,0 +1,10 @@
+            <!-- Pre-Workout Screen -->
+            <div id="preWorkoutScreen" class="screen">
+                <div class="container">
+                    <button id="backToHome" class="btn btn-link">← Back</button>
+                    <h2 id="preWorkoutPlanName"></h2>
+                    <div id="preWorkoutExercises" class="pre-workout-list"></div>
+                    <div class="pre-workout-note">Note: You can adjust rest times between sets and after the final set.</div>
+                    <button id="startWorkoutBtn" class="btn btn-primary btn-large">Start Workout</button>
+                </div>
+            </div>
