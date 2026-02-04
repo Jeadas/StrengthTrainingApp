@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sta-v1';
+const CACHE_NAME = 'sta-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,7 @@ const ASSETS = [
   './js/timer.js',
   './js/ui.js',
   './js/app.js',
-  './manifest.json'
+  './manifest-v2.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,3 +27,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+self.addEventListener('activate', (event) => { event.waitUntil(clients.claim()); });
