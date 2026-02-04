@@ -1,11 +1,11 @@
 {
-  "name": "JDFit",
-  "short_name": "JDFit",
-  "description": "Local-first, offline-capable workout tracker",
+  "name": "JDFit Dev",
+  "short_name": "JDFit Dev",
+  "description": "DEVELOPMENT VERSION - JDFit",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2196F3",
+  "theme_color": "#FF9800",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2964/2964514.png",
