@@ -6,8 +6,8 @@
     --text-primary: #212121;
     --text-secondary: #757575;
     --border-color: #e0e0e0;
-    --primary-color: #2196F3;
-    --primary-hover: #1976D2;
+    --primary-color: #FF9800;
+    --primary-hover: #F57C00;
     --secondary-color: #757575;
     --secondary-hover: #616161;
     --danger-color: #f44336;
@@ -52,7 +52,8 @@ body {
 
 /* Header */
 .app-header {
-    background-color: var(--bg-secondary);
+    background-color: #332200; /* Dark orange/brown for Dev */
+    border-bottom: 2px solid var(--primary-color);
     padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -61,6 +62,20 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+.app-header::after {
+    content: 'DEV MODE';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: black;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 0 0 4px 4px;
 }
 
 .app-header h1 {
